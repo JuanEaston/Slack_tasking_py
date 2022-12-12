@@ -1,0 +1,31 @@
+import requests
+import json
+
+# Slack App Credentials
+SLACK_TOKEN = "xxxxxxxxxxx"
+SLACK_CHANNEL = "xxxxxxxxxxx"
+
+# Monday.com Credentials
+MONDAY_TOKEN = "xxxxxxxxxxx"
+MONDAY_BOARD_ID = "xxxxxxxxxxx"
+
+# Setup the Slack client
+client = SlackClient(SLACK_TOKEN)
+
+# Connect to the Slack channel
+if client.rtm_connect():
+
+    # Get the latest messages from Slack
+    response = client.rtm_read()
+
+    # Loop through the messages
+    for message in response:
+        # Check for messages with the content type 'message'
+        if message.get('type') == 'message':
+            # Get the message text
+            message_text = message.get('text')
+            # Set the URL for the Monday.com task creation API
+            monday_url = "https://api.monday.com/v2/boards/" + MONDAY_BOARD_ID + "/items/"
+            # Create the payload with the message text
+            payload = {
+                "item
